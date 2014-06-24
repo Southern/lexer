@@ -70,6 +70,8 @@ func init() {
               "while",
               "(set|clear)Timeout",
               "(set|clear)Interval",
+              "if",
+              "else",
             }, "|"),
             ")",
           }, ""),
