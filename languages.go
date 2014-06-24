@@ -115,10 +115,7 @@ func init() {
           strings.Join([]string{
             "^(",
             strings.Join([]string{
-              "ComplexType",
-              "FloatType",
-              "IntegerType",
-              "Type",
+              "(Complex|Float|Integer)?Type",
               "Type1",
               "bool",
               "byte",
@@ -131,6 +128,9 @@ func init() {
               "true",
               "false",
               "iota",
+              "func",
+              "type",
+              "struct",
             }, "|"),
             ")",
           }, ""),
