@@ -24,7 +24,7 @@ func init() {
         regex["string"]["single"],
 
         // Operators
-        scanner.Definition{regexp.MustCompile("^(\\+{1,2}|-{1,2}|[=%])"), "OPERATOR"},
+        scanner.Definition{regexp.MustCompile("^(\\+{1,2}|-{1,2}|[=%\\/])"), "OPERATOR"},
 
         // Restricted words
         scanner.Definition{regexp.MustCompile(
@@ -114,7 +114,7 @@ func init() {
         regex["string"]["double"],
 
         // Operators
-        scanner.Definition{regexp.MustCompile("^(\\+{1,2}|-{1,2}|[=%])"), "OPERATOR"},
+        scanner.Definition{regexp.MustCompile("^(\\+{1,2}|-{1,2}|[=%\\/])"), "OPERATOR"},
 
         // Restricted words
         scanner.Definition{regexp.MustCompile(
