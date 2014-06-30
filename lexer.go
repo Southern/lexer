@@ -7,14 +7,32 @@ import (
   "strings"
 )
 
+/*
+
+Language is used for each individual language to define file extensions,
+scanner definitions, and modifications that need to be made during lexing.
+
+*/
 type Language struct {
   Extensions []string
   Map        []scanner.Definition
   Modify     [][][]string
 }
 
+/*
+
+Languages is used to map each Language to a string that can be accessible
+when providing a language argument to Lexer.Parse().
+
+*/
 var Languages map[string]*Language
 
+/*
+
+Lexer is a single instance of a lexer, with a single language loaded, that
+will allow the tokenization of the data sent to it.
+
+*/
 type Lexer struct {
   Language string
 
@@ -22,6 +40,13 @@ type Lexer struct {
   language *Language
 }
 
+/*
+
+New returns a new instance of Lexer with the default Language being
+"plaintext". This will also create a new scanner instance specifically for
+this lexer.
+
+*/
 func New() Lexer {
   return Lexer{
     Language: "plaintext",
@@ -29,6 +54,16 @@ func New() Lexer {
   }
 }
 
+/*
+
+Parse is used to parse all data sent to it.
+
+If the number of arguments sent to Parse are more than 1, the first argument
+is assumed to be the language that you wish this data to be parsed as.
+Otherwise, the language will never be switched and your data will be parsed as
+plaintext, since that is the default setting.
+
+*/
 func (l Lexer) Parse(data ...interface{}) (error, Lexer) {
   var toScan interface{}
 
@@ -92,6 +127,20 @@ func (l Lexer) Parse(data ...interface{}) (error, Lexer) {
   return nil, l
 }
 
+/*
+
+ReadFile is used to read in an entire file, and attempt to guess what language
+we are going to be parsing. It does this by checking the file extensions that
+have been defined for each language in the lexer. If there are multiple
+languages that use the same extension, the first language that matches will be
+used.
+
+For example, let's say you have a Node.js file. It will parse the file as
+Javascript rather than Node, because the map keys in Go are in alphabetical
+order. This gives the J in Javascript a higher index than the N in Node, and
+therefore Javascript matches first.
+
+*/
 func (l Lexer) ReadFile(filename string) (error, Lexer) {
   data, err := ioutil.ReadFile(filename)
   if err != nil {
