@@ -49,8 +49,9 @@ this lexer.
 */
 func New() Lexer {
   return Lexer{
-    Language: "plaintext",
-    Scanner:  scanner.New(),
+    "plaintext",
+    scanner.New(),
+    &Language{},
   }
 }
 
@@ -142,10 +143,28 @@ therefore Javascript matches first.
 
 */
 func (l Lexer) ReadFile(filename string) (error, Lexer) {
-  data, err := ioutil.ReadFile(filename)
+  file, err := ioutil.ReadFile(filename)
   if err != nil {
     return err, l
   }
 
-  return l.Parse(data)
+  split, langs := strings.Split(filename, "."), make([]string, 0)
+  if len(split) > 1 {
+    ext := strings.ToLower(split[len(split)-1])
+    for lang, data := range Languages {
+      if len(data.Extensions) > 0 {
+        for _, e := range data.Extensions {
+          if ext == strings.ToLower(e) {
+            langs = append(langs, lang)
+          }
+        }
+      }
+    }
+  }
+
+  if len(langs) > 0 {
+    return l.Parse(langs[0], file)
+  }
+
+  return l.Parse(file)
 }
