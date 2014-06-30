@@ -23,8 +23,8 @@ func init() {
         // Single quote strings
         regex["strings"]["single"],
 
-        // === is not defined in the common operators
-        scanner.Definition{regexp.MustCompile("^={3}"), "OPERATOR"},
+        // ===, .
+        scanner.Definition{regexp.MustCompile("^(={3}|\\.)"), "OPERATOR"},
 
         // Operators
         regex["operators"]["common"],
@@ -116,8 +116,8 @@ func init() {
         // Double quote strings
         regex["strings"]["double"],
 
-        // &^, &^=, ...
-        scanner.Definition{regexp.MustCompile("^(&\\^?=?|\\.{3})"), "OPERATOR"},
+        // &^, &^=, ..., .
+        scanner.Definition{regexp.MustCompile("^(&\\^?=?|\\.{3}|\\.)"), "OPERATOR"},
 
         // Common operators
         regex["operators"]["common"],
