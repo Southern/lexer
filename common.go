@@ -3,6 +3,7 @@ package lexer
 import (
   "github.com/Southern/scanner"
   "regexp"
+  "strings"
 )
 
 var regex = map[string]map[string]scanner.Definition{
@@ -26,7 +27,17 @@ var regex = map[string]map[string]scanner.Definition{
   },
 
   "operators": map[string]scanner.Definition{
-    // Most common operators in languages: ++, --, -=, +=, /=, %=, ==, =
-    "common": scanner.Definition{regexp.MustCompile("^(\\+{1,2}|-{1,2}|[+\\-=%\\/]=?)"), "OPERATOR"},
+    // Common operators found in almost all languages
+    "common": scanner.Definition{regexp.MustCompile(strings.Join([]string{
+      "^(",
+      strings.Join([]string{
+        // ++, --
+        "([+\\-&|]{2})",
+        // !, !=, <, <<, <=, <<=, >, >>, >>>, >=, >>=, >>>=, ^, ^=, +, +=, -,
+        // -=, %, %=, *, *=
+        "((<{2}|>{2,3}|[!|&<>^+\\-=%/*])=?)",
+      }, "|"),
+      ")",
+    }, "")), "OPERATOR"},
   },
 }
