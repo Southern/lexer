@@ -116,8 +116,8 @@ func init() {
         // Double quote strings
         regex["strings"]["double"],
 
-        // &^, &^=
-        scanner.Definition{regexp.MustCompile("^(&\\^?=?)"), "OPERATOR"},
+        // &^, &^=, ...
+        scanner.Definition{regexp.MustCompile("^(&\\^?=?|\\.{3})"), "OPERATOR"},
 
         // Common operators
         regex["operators"]["common"],
