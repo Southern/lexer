@@ -31,7 +31,7 @@ var regex = map[string]map[string]scanner.Definition{
     "common": scanner.Definition{regexp.MustCompile(strings.Join([]string{
       "^(",
       strings.Join([]string{
-        // ++, --
+        // ++, --, &&, ||
         "([+\\-&|]{2})",
         // !, !=, <, <<, <=, <<=, >, >>, >>>, >=, >>=, >>>=, ^, ^=, +, +=, -,
         // -=, %, %=, *, *=
