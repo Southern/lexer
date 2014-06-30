@@ -18,13 +18,13 @@ func init() {
         regex["comments"]["multiline"],
 
         // Double quote strings
-        regex["string"]["double"],
+        regex["strings"]["double"],
 
         // Single quote strings
-        regex["string"]["single"],
+        regex["strings"]["single"],
 
         // Operators
-        scanner.Definition{regexp.MustCompile("^(\\+{1,2}|-{1,2}|[=%\\/])"), "OPERATOR"},
+        regex["operators"]["common"],
 
         // Restricted words
         scanner.Definition{regexp.MustCompile(
@@ -111,10 +111,10 @@ func init() {
         regex["comments"]["multiline"],
 
         // Double quote strings
-        regex["string"]["double"],
+        regex["strings"]["double"],
 
         // Operators
-        scanner.Definition{regexp.MustCompile("^(\\+{1,2}|-{1,2}|[=%\\/])"), "OPERATOR"},
+        regex["operators"]["common"],
 
         // Restricted words
         scanner.Definition{regexp.MustCompile(
