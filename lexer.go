@@ -86,7 +86,7 @@ func (l Lexer) Parse(data ...interface{}) (error, Lexer) {
 
   for lang, data := range Languages {
     if strings.ToLower(l.Language) == strings.ToLower(lang) {
-      l.language = Languages[l.Language]
+      l.language = Languages[lang]
       if len(data.Map) > 0 {
         l.Scanner.Map = data.Map
       }
