@@ -175,6 +175,67 @@ func init() {
         },
       },
     },
+
+    "Python": &Language{
+      Extensions: []string{"py"},
+      Map: append([]scanner.Definition{
+        // Single line comments
+        regex["comments"]["oneline"],
+
+        // Multi-line comments
+        regex["comments"]["multiline"],
+
+        // Heredoc
+        scanner.Definition{regexp.MustCompile("^\"{3}(\\\"?[^\"])*\"{3}"), "HEREDOC"},
+
+        // Double quote strings
+        regex["strings"]["double"],
+
+        // Single quote strings
+        regex["strings"]["single"],
+
+        // //, **
+        scanner.Definition{regexp.MustCompile("^([*/]{2})"), "OPERATOR"},
+
+        // Common operators
+        regex["operators"]["common"],
+
+        // Restricted words
+        scanner.Definition{regexp.MustCompile(
+          strings.Join([]string{
+            "^(",
+            strings.Join([]string{
+              "a(nd|s)",
+              "assert",
+              "break",
+              "class",
+              "continue",
+              "de[lf]",
+              "el(se|if)",
+              "ex(ec|cept)",
+              "finally",
+              "f?or",
+              "from",
+              "global",
+              "if",
+              "import",
+              "i[ns]",
+              "lambda",
+              "not",
+              "pass",
+              "print",
+              "raise",
+              "return",
+              "try",
+              "while",
+              "with",
+              "yield",
+            }, "|"),
+            ")",
+          }, ""),
+        ), "IDENT"},
+      }, scanner.Map()...),
+    },
   }
 
   Languages["Node"] = Languages["Javascript"]
