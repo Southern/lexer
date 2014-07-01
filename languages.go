@@ -194,6 +194,9 @@ func init() {
         // Single quote strings
         regex["strings"]["single"],
 
+        // Decorators
+        scanner.Definition{regexp.MustCompile("^@.+"), "DECORATOR"},
+
         // //, **
         scanner.Definition{regexp.MustCompile("^([*/]{2})"), "OPERATOR"},
 
