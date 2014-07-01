@@ -179,11 +179,8 @@ func init() {
     "Python": &Language{
       Extensions: []string{"py"},
       Map: append([]scanner.Definition{
-        // Single line comments
-        regex["comments"]["oneline"],
-
-        // Multi-line comments
-        regex["comments"]["multiline"],
+        // Comments
+        scanner.Definition{regexp.MustCompile("^#.+"), "COMMENT"},
 
         // Heredoc
         scanner.Definition{regexp.MustCompile("^\"{3}(\\\"?[^\"])*\"{3}"), "HEREDOC"},
