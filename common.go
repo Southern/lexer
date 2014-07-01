@@ -20,10 +20,10 @@ var regex = map[string]map[string]scanner.Definition{
 
   "strings": map[string]scanner.Definition{
     // Double quote strings
-    "double": scanner.Definition{regexp.MustCompile("^\"([^\"\\n]|\\\")+\""), "STRING"},
+    "double": scanner.Definition{regexp.MustCompile("^\"([^\"\\n]|\\\")*\""), "STRING"},
 
     // Single quote strings
-    "single": scanner.Definition{regexp.MustCompile("^'([^'\\n]|\\')+'"), "STRING"},
+    "single": scanner.Definition{regexp.MustCompile("^'([^'\\n]|\\')*'"), "STRING"},
   },
 
   "operators": map[string]scanner.Definition{
