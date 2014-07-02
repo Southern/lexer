@@ -100,6 +100,14 @@ func init() {
           []string{"ARGEND"},
         },
         [][]string{
+          []string{"CHAR", "["},
+          []string{"ARRAYSTART"},
+        },
+        [][]string{
+          []string{"CHAR", "]"},
+          []string{"ARRAYEND"},
+        },
+        [][]string{
           []string{"CHAR", ";"},
           []string{"END"},
         },
