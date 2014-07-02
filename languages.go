@@ -434,6 +434,24 @@ func init() {
             ")",
           }, "")), "IDENT"},
       }, scanner.Map()...),
+      Modify: [][][]string{
+        [][]string{
+          []string{"CHAR", "{"},
+          []string{"BLOCKSTART"},
+        },
+        [][]string{
+          []string{"CHAR", "}"},
+          []string{"BLOCKEND"},
+        },
+        [][]string{
+          []string{"CHAR", "("},
+          []string{"ARGSTART"},
+        },
+        [][]string{
+          []string{"CHAR", ")"},
+          []string{"ARGEND"},
+        },
+      },
     },
   }
 
