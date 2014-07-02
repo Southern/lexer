@@ -459,6 +459,14 @@ func init() {
           []string{"CHAR", ")"},
           []string{"ARGEND"},
         },
+        [][]string{
+          []string{"CHAR", "["},
+          []string{"ARRAYSTART"},
+        },
+        [][]string{
+          []string{"CHAR", "]"},
+          []string{"ARRAYEND"},
+        },
       },
     },
   }
