@@ -357,7 +357,7 @@ func init() {
         regex["strings"]["single"],
 
         // ::, .., ..., ., <=>, ===, =~, !~
-        scanner.Definition{regexp.MustCompile("^(:{2}|\\.{2,3}|\\.|<=>|={3}|=~|!~)"), "OPERATOR"},
+        scanner.Definition{regexp.MustCompile("^(:{2}|\\.{2,3}|\\.|<=>|={3}|=[~>]|!~)"), "OPERATOR"},
 
         // Common operators
         regex["operators"]["common"],
