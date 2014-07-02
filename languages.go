@@ -23,8 +23,8 @@ func init() {
         // Single quote strings
         regex["strings"]["single"],
 
-        // ===, .
-        scanner.Definition{regexp.MustCompile("^(={3}|\\.)"), "OPERATOR"},
+        // ~, ===, .
+        scanner.Definition{regexp.MustCompile("^(~|={3}|\\.)"), "OPERATOR"},
 
         // Operators
         regex["operators"]["common"],
@@ -242,6 +242,102 @@ func init() {
           }, ""),
         ), "IDENT"},
       }, scanner.Map()...),
+    },
+
+    "Java": &Language{
+      Extensions: []string{"java"},
+      Map: append([]scanner.Definition{
+        // Single line comments
+        regex["comments"]["oneline"],
+
+        // Multi-line comments
+        regex["comments"]["multiline"],
+
+        // Double quote strings
+        regex["strings"]["double"],
+
+        // Single quote "string"
+        regex["strings"]["single"],
+
+        // ~, ?:, .
+        scanner.Definition{regexp.MustCompile("^(~|\\?:|\\.)"), "OPERATOR"},
+
+        // Common operators
+        regex["operators"]["common"],
+
+        // Restricted Java words
+        scanner.Definition{regexp.MustCompile(
+          strings.Join([]string{
+            "^(",
+            strings.Join([]string{
+              "abstract",
+              "assert",
+              "boolean",
+              "break",
+              "byte",
+              "ca(se|tch)",
+              "char",
+              "class",
+              "con(st|tinue)",
+              "default",
+              "do(uble)?",
+              "else",
+              "enum",
+              "extends",
+              "final(ly)?",
+              "float",
+              "for",
+              "goto",
+              "if",
+              "im(plements|port)",
+              "instanceof",
+              "int(erface)?",
+              "long",
+              "native",
+              "new",
+              "package",
+              "private",
+              "protected",
+              "public",
+              "return",
+              "short",
+              "static",
+              "strictfp",
+              "super",
+              "switch",
+              "syncrhonized",
+              "th(is|rows?)",
+              "transient",
+              "try",
+              "void",
+              "volatile",
+              "while",
+              "false",
+              "null",
+              "true",
+            }, "|"),
+            ")",
+          }, ""),
+        ), "IDENT"},
+      }, scanner.Map()...),
+      Modify: [][][]string{
+        [][]string{
+          []string{"CHAR", "{"},
+          []string{"BLOCKSTART"},
+        },
+        [][]string{
+          []string{"CHAR", "}"},
+          []string{"BLOCKEND"},
+        },
+        [][]string{
+          []string{"CHAR", "("},
+          []string{"ARGSTART"},
+        },
+        [][]string{
+          []string{"CHAR", ")"},
+          []string{"ARGEND"},
+        },
+      },
     },
   }
 
