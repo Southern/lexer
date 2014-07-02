@@ -339,6 +339,98 @@ func init() {
         },
       },
     },
+
+    "Ruby": &Language{
+      Extensions: []string{"rb"},
+      Map: append([]scanner.Definition{
+        // Comments
+        scanner.Definition{regexp.MustCompile("^#.+"), "COMMENT"},
+
+        // Double quote strings
+        regex["strings"]["double"],
+
+        // Single quote "string"
+        regex["strings"]["single"],
+
+        // ::, .., ..., ., <=>, ===, =~, !~
+        scanner.Definition{regexp.MustCompile("^(:{2}|\\.{2,3}|\\.|<=>|={3}|=~|!~)"), "OPERATOR"},
+
+        // Common operators
+        regex["operators"]["common"],
+
+        // Restricted Ruby words
+        scanner.Definition{regexp.MustCompile(
+          strings.Join([]string{
+            "^(",
+            strings.Join([]string{
+              "BEGIN",
+              "END",
+              "TRUE",
+              "FALSE",
+              "NIL",
+              "ARGF",
+              "ARGV",
+              "DATA",
+              "ENV",
+              "RUBY_(PLATFORM|RELEASE_DATE|VERSION)",
+              "STD(ERR|IN|OUT)",
+              "TOPLEVEL_BINDING",
+              "a(lias|nd)",
+              "abort",
+              "begin",
+              "break",
+              "case",
+              "class",
+              "def(ined\\?)?",
+              "do",
+              "el(se|sif)",
+              "en(d|sure)",
+              "exit",
+              "false",
+              "for",
+              "i[fn]",
+              "module",
+              "next",
+              "nil",
+              "not",
+              "or",
+              "print",
+              "puts",
+              "raise",
+              "re(do|scue|try|turn)",
+              "self",
+              "super",
+              "then",
+              "trap",
+              "true",
+              "un(def|less|til)",
+              "wh(en|ile)",
+              "__FILE__",
+              "__LINE__",
+            }, "|"),
+            ")",
+          }, "")), "IDENT"},
+
+        // Restricted Ruby variables
+        scanner.Definition{regexp.MustCompile(
+          strings.Join([]string{
+            "^\\$(",
+            strings.Join([]string{
+              "[!@\\/\\\\,;.<>0$?:&`'+_~]",
+              "DEBUG",
+              "defout",
+              "F(ILENAME)?",
+              "LOAD_PATH",
+              "SAFE",
+              "std(in|out|err)",
+              "VERBOSE",
+              "-[0adFiIlp]",
+              "[1-9]+",
+            }, "|"),
+            ")",
+          }, "")), "IDENT"},
+      }, scanner.Map()...),
+    },
   }
 
   Languages["Node"] = Languages["Javascript"]
