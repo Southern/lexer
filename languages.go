@@ -337,6 +337,10 @@ func init() {
           []string{"CHAR", ")"},
           []string{"ARGEND"},
         },
+        [][]string{
+          []string{"CHAR", ";"},
+          []string{"END"},
+        },
       },
     },
 
