@@ -209,7 +209,7 @@ func init() {
         regex["strings"]["single"],
 
         // Decorators
-        scanner.Definition{regexp.MustCompile("^@.+"), "DECORATOR"},
+        scanner.Definition{regexp.MustCompile("^@[^\\s]+"), "DECORATOR"},
 
         // //, **
         scanner.Definition{regexp.MustCompile("^([*/]{2})"), "OPERATOR"},
@@ -268,6 +268,9 @@ func init() {
 
         // Single quote "string"
         regex["strings"]["single"],
+
+        // Decorators
+        scanner.Definition{regexp.MustCompile("^@[^\\s]+"), "DECORATOR"},
 
         // ~, ?:, .
         scanner.Definition{regexp.MustCompile("^(~|\\?:|\\.)"), "OPERATOR"},
