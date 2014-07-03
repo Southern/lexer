@@ -200,7 +200,8 @@ func init() {
         scanner.Definition{regexp.MustCompile("^#.+"), "COMMENT"},
 
         // Heredoc
-        scanner.Definition{regexp.MustCompile("^\"{3}(\\\"?[^\"])*\"{3}"), "DOCSTRING"},
+        scanner.Definition{regexp.MustCompile(`^"{3}(\"?[^"])*"{3}`), "DOCSTRING"},
+        scanner.Definition{regexp.MustCompile(`^'{3}(\'?[^'])*'{3}`), "DOCSTRING"},
 
         // Double quote strings
         regex["strings"]["double"],
