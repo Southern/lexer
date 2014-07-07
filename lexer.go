@@ -94,7 +94,7 @@ func (l Lexer) Parse(data ...interface{}) (Lexer, error) {
     }
   }
 
-  err, scan := l.Scanner.Parse(toScan)
+  scan, err := l.Scanner.Parse(toScan)
   if err != nil {
     return l, err
   }
