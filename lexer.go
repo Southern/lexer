@@ -65,11 +65,11 @@ Otherwise, the language will never be switched and your data will be parsed as
 plaintext, since that is the default setting.
 
 */
-func (l Lexer) Parse(data ...interface{}) (error, Lexer) {
+func (l Lexer) Parse(data ...interface{}) (Lexer, error) {
   var toScan interface{}
 
   if len(data) == 0 && len(l.Scanner.Tokens) == 0 {
-    return fmt.Errorf("No data to parse."), l
+    return l, fmt.Errorf("No data to parse.")
   }
 
   if len(data) > 1 {
@@ -77,7 +77,7 @@ func (l Lexer) Parse(data ...interface{}) (error, Lexer) {
     case string:
       l.Language = data[0].(string)
     default:
-      return fmt.Errorf("Expected a string as the first argument."), l
+      return l, fmt.Errorf("Expected a string as the first argument.")
     }
 
     toScan = data[1]
@@ -96,7 +96,7 @@ func (l Lexer) Parse(data ...interface{}) (error, Lexer) {
 
   err, scan := l.Scanner.Parse(toScan)
   if err != nil {
-    return err, l
+    return l, err
   }
 
   for i := 0; i < len(l.language.Modify); i++ {
@@ -125,7 +125,7 @@ func (l Lexer) Parse(data ...interface{}) (error, Lexer) {
 
   l.Scanner = scan
 
-  return nil, l
+  return l, nil
 }
 
 /*
@@ -142,10 +142,10 @@ order. This gives the J in Javascript a higher index than the N in Node, and
 therefore Javascript matches first.
 
 */
-func (l Lexer) ReadFile(filename string) (error, Lexer) {
+func (l Lexer) ReadFile(filename string) (Lexer, error) {
   file, err := ioutil.ReadFile(filename)
   if err != nil {
-    return err, l
+    return l, err
   }
 
   split, langs := strings.Split(filename, "."), make([]string, 0)
