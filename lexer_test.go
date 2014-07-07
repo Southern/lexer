@@ -2,6 +2,8 @@ package lexer_test
 
 import (
   "github.com/Southern/lexer"
+  "io/ioutil"
+  "strings"
   "testing"
 )
 
@@ -101,25 +103,29 @@ func TestParseScannerError(t *testing.T) {
 }
 
 func TestReadFile(t *testing.T) {
-  scan, err := l.ReadFile("testdata/animal.js")
+  Status("Reading all files in testdata directory")
+  files, err := ioutil.ReadDir("testdata")
 
   if err != nil {
     t.Errorf("Unexpected error: %s", err)
     return
   }
 
-  Status("Scan: %+v", scan)
-}
+  Status("Scanning all files found in testdata directory")
+  for len(files) > 0 {
+    file := strings.Join([]string{"testdata", files[0].Name()}, "/")
+    Status("Scanning file: %s", file)
 
-func TestReadFileWithNoLanguageMatch(t *testing.T) {
-  scan, err := l.ReadFile("testdata/plain.txt")
+    scan, err := l.ReadFile(file)
 
-  if err != nil {
-    t.Errorf("Unexpected error: %s", err)
-    return
+    if err != nil {
+      t.Errorf("Unexpected error: %s", err)
+      return
+    }
+
+    Status("Scanned: %+v", scan)
+    files = files[1:]
   }
-
-  Status("Scan: %+v", scan)
 }
 
 func TestReadFileInvalidFileError(t *testing.T) {
