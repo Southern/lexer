@@ -80,7 +80,7 @@ func init() {
               "return",
             }, "|"),
             ")",
-          }, ""),
+          }, "") + "\\b",
         ), "IDENT"},
       }, scanner.Map()...),
       Modify: [][][]string{
@@ -170,7 +170,7 @@ func init() {
               "return",
             }, "|"),
             ")",
-          }, ""),
+          }, "") + "\\b",
         ), "IDENT"},
       }, scanner.Map()...),
       Modify: [][][]string{
@@ -250,7 +250,7 @@ func init() {
               "yield",
             }, "|"),
             ")",
-          }, ""),
+          }, "") + "\\b",
         ), "IDENT"},
       }, scanner.Map()...),
     },
@@ -331,7 +331,7 @@ func init() {
               "true",
             }, "|"),
             ")",
-          }, ""),
+          }, "") + "\\b",
         ), "IDENT"},
       }, scanner.Map()...),
       Modify: [][][]string{
@@ -427,7 +427,8 @@ func init() {
               "__LINE__",
             }, "|"),
             ")",
-          }, "")), "IDENT"},
+          }, "") + "\\b",
+        ), "IDENT"},
 
         // Restricted Ruby variables
         scanner.Definition{regexp.MustCompile(
@@ -446,7 +447,8 @@ func init() {
               "[1-9]+",
             }, "|"),
             ")",
-          }, "")), "IDENT"},
+          }, "") + "\\b",
+        ), "IDENT"},
       }, scanner.Map()...),
       Modify: [][][]string{
         [][]string{
@@ -494,7 +496,7 @@ func init() {
           "__filename",
         }, "|"),
         ")",
-      }, ""),
+      }, "") + "\\b",
     ), "IDENT"},
   }, Languages["Node"].Map...)
 }
