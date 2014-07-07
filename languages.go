@@ -248,10 +248,15 @@ func init() {
               "while",
               "with",
               "yield",
+              "None",
             }, "|"),
-            ")",
+            ")[^A-Za-z0-9_]",
           }, ""),
         ), "IDENT"},
+
+        // Names
+        scanner.Definition{regexp.MustCompile(`^[a-zA-Z_][a-zA-Z0-9_]*`), "NAME"},
+
       }, scanner.Map()...),
     },
 
