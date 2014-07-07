@@ -2,16 +2,14 @@ package lexer_test
 
 import (
   "github.com/Southern/lexer"
-  // "strings"
   "testing"
 )
 
-// var l lexer.Lexer
 var l = lexer.New()
 
-func Test(t *testing.T) {
+func TestParse(t *testing.T) {
 
-  err, scan := l.Parse("Javascript", `/*
+  scan, err := l.Parse("Javascript", `/*
 
   Animal can be used as a base for different types of animals.
 
@@ -60,6 +58,7 @@ module.exports = {
   Dog: Dog,
 };
 `)
+
   if err != nil {
     t.Errorf("Unexpected error: %s", err)
     return
@@ -68,27 +67,68 @@ module.exports = {
   Status("Scan: %+v", scan)
 }
 
-// func TestNew(t *testing.T) {
-//   l = lexer.New()
-//   Status("Lexer: %+v", l)
-// }
+func TestParseNoDataError(t *testing.T) {
+  _, err := l.Parse()
 
-// func TestReadFile(t *testing.T) {
-//   err, _ := l.ReadFile(strings.Join([]string{"testdata", "test.js"}, "/"))
-//   if err != nil {
-//     t.Errorf("Unexpected error: %s", err)
-//     return
-//   }
+  if err == nil {
+    t.Errorf("Expected error.")
+    return
+  }
 
-//   // Status("Read file: %+v\n", l)
-// }
+  Status("Got error: %+v", err)
+}
 
-// func TestParse(t *testing.T) {
-//   // err, l := l.Parse("test", "test")
-//   err, l := l.Parse("test")
-//   if err != nil {
-//     t.Errorf("Unexpected error: %s", err)
-//   }
+func TestParseStringFirstError(t *testing.T) {
+  _, err := l.Parse([]int{1, 2, 3, 4, 5}, "Test")
 
-//   Status("Lexer: %+v", l)
-// }
+  if err == nil {
+    t.Errorf("Expected error.")
+    return
+  }
+
+  Status("Got error: %+v", err)
+}
+
+func TestParseScannerError(t *testing.T) {
+  _, err := l.Parse([]int{1, 2, 3, 4, 5})
+
+  if err == nil {
+    t.Errorf("Expected error.")
+    return
+  }
+
+  Status("Got error: %+v", err)
+}
+
+func TestReadFile(t *testing.T) {
+  scan, err := l.ReadFile("testdata/animal.js")
+
+  if err != nil {
+    t.Errorf("Unexpected error: %s", err)
+    return
+  }
+
+  Status("Scan: %+v", scan)
+}
+
+func TestReadFileWithNoLanguageMatch(t *testing.T) {
+  scan, err := l.ReadFile("testdata/plain.txt")
+
+  if err != nil {
+    t.Errorf("Unexpected error: %s", err)
+    return
+  }
+
+  Status("Scan: %+v", scan)
+}
+
+func TestReadFileInvalidFileError(t *testing.T) {
+  _, err := l.ReadFile("testdata/idontexist")
+
+  if err == nil {
+    t.Errorf("Expected error.")
+    return
+  }
+
+  Status("Got error: %+v", err)
+}
