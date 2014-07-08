@@ -1,17 +1,17 @@
 package lexer_test
 
 import (
-  "github.com/Southern/lexer"
-  "io/ioutil"
-  "strings"
-  "testing"
+	"github.com/Southern/lexer"
+	"io/ioutil"
+	"strings"
+	"testing"
 )
 
 var l = lexer.New()
 
 func TestParse(t *testing.T) {
 
-  scan, err := l.Parse("Javascript", `/*
+	scan, err := l.Parse("Javascript", `/*
 
   Animal can be used as a base for different types of animals.
 
@@ -61,80 +61,80 @@ module.exports = {
 };
 `)
 
-  if err != nil {
-    t.Errorf("Unexpected error: %s", err)
-    return
-  }
+	if err != nil {
+		t.Errorf("Unexpected error: %s", err)
+		return
+	}
 
-  Status("Scan: %+v", scan)
+	Status("Scan: %+v", scan)
 }
 
 func TestParseNoDataError(t *testing.T) {
-  _, err := l.Parse()
+	_, err := l.Parse()
 
-  if err == nil {
-    t.Errorf("Expected error.")
-    return
-  }
+	if err == nil {
+		t.Errorf("Expected error.")
+		return
+	}
 
-  Status("Got error: %+v", err)
+	Status("Got error: %+v", err)
 }
 
 func TestParseStringFirstError(t *testing.T) {
-  _, err := l.Parse([]int{1, 2, 3, 4, 5}, "Test")
+	_, err := l.Parse([]int{1, 2, 3, 4, 5}, "Test")
 
-  if err == nil {
-    t.Errorf("Expected error.")
-    return
-  }
+	if err == nil {
+		t.Errorf("Expected error.")
+		return
+	}
 
-  Status("Got error: %+v", err)
+	Status("Got error: %+v", err)
 }
 
 func TestParseScannerError(t *testing.T) {
-  _, err := l.Parse([]int{1, 2, 3, 4, 5})
+	_, err := l.Parse([]int{1, 2, 3, 4, 5})
 
-  if err == nil {
-    t.Errorf("Expected error.")
-    return
-  }
+	if err == nil {
+		t.Errorf("Expected error.")
+		return
+	}
 
-  Status("Got error: %+v", err)
+	Status("Got error: %+v", err)
 }
 
 func TestReadFile(t *testing.T) {
-  Status("Reading all files in testdata directory")
-  files, err := ioutil.ReadDir("testdata")
+	Status("Reading all files in testdata directory")
+	files, err := ioutil.ReadDir("testdata")
 
-  if err != nil {
-    t.Errorf("Unexpected error: %s", err)
-    return
-  }
+	if err != nil {
+		t.Errorf("Unexpected error: %s", err)
+		return
+	}
 
-  Status("Scanning all files found in testdata directory")
-  for len(files) > 0 {
-    file := strings.Join([]string{"testdata", files[0].Name()}, "/")
-    Status("Scanning file: %s", file)
+	Status("Scanning all files found in testdata directory")
+	for len(files) > 0 {
+		file := strings.Join([]string{"testdata", files[0].Name()}, "/")
+		Status("Scanning file: %s", file)
 
-    scan, err := l.ReadFile(file)
+		scan, err := l.ReadFile(file)
 
-    if err != nil {
-      t.Errorf("Unexpected error: %s", err)
-      return
-    }
+		if err != nil {
+			t.Errorf("Unexpected error: %s", err)
+			return
+		}
 
-    Status("Scanned: %+v", scan)
-    files = files[1:]
-  }
+		Status("Scanned: %+v", scan)
+		files = files[1:]
+	}
 }
 
 func TestReadFileInvalidFileError(t *testing.T) {
-  _, err := l.ReadFile("testdata/idontexist")
+	_, err := l.ReadFile("testdata/idontexist")
 
-  if err == nil {
-    t.Errorf("Expected error.")
-    return
-  }
+	if err == nil {
+		t.Errorf("Expected error.")
+		return
+	}
 
-  Status("Got error: %+v", err)
+	Status("Got error: %+v", err)
 }

@@ -1,10 +1,10 @@
 package lexer
 
 import (
-  "fmt"
-  "github.com/Southern/scanner"
-  "io/ioutil"
-  "strings"
+	"fmt"
+	"github.com/Southern/scanner"
+	"io/ioutil"
+	"strings"
 )
 
 /*
@@ -14,9 +14,9 @@ scanner definitions, and modifications that need to be made during lexing.
 
 */
 type Language struct {
-  Extensions []string
-  Map        []scanner.Definition
-  Modify     [][][]string
+	Extensions []string
+	Map        []scanner.Definition
+	Modify     [][][]string
 }
 
 /*
@@ -34,10 +34,10 @@ will allow the tokenization of the data sent to it.
 
 */
 type Lexer struct {
-  Language string
+	Language string
 
-  Scanner  scanner.Scanner
-  language *Language
+	Scanner  scanner.Scanner
+	language *Language
 }
 
 /*
@@ -48,11 +48,11 @@ this lexer.
 
 */
 func New() Lexer {
-  return Lexer{
-    "plaintext",
-    scanner.New(),
-    &Language{},
-  }
+	return Lexer{
+		"plaintext",
+		scanner.New(),
+		&Language{},
+	}
 }
 
 /*
@@ -66,66 +66,66 @@ plaintext, since that is the default setting.
 
 */
 func (l Lexer) Parse(data ...interface{}) (Lexer, error) {
-  var toScan interface{}
+	var toScan interface{}
 
-  if len(data) == 0 && len(l.Scanner.Tokens) == 0 {
-    return l, fmt.Errorf("No data to parse.")
-  }
+	if len(data) == 0 && len(l.Scanner.Tokens) == 0 {
+		return l, fmt.Errorf("No data to parse.")
+	}
 
-  if len(data) > 1 {
-    switch data[0].(type) {
-    case string:
-      l.Language = data[0].(string)
-    default:
-      return l, fmt.Errorf("Expected a string as the first argument.")
-    }
+	if len(data) > 1 {
+		switch data[0].(type) {
+		case string:
+			l.Language = data[0].(string)
+		default:
+			return l, fmt.Errorf("Expected a string as the first argument.")
+		}
 
-    toScan = data[1]
-  } else if len(data) == 1 {
-    toScan = data[0]
-  }
+		toScan = data[1]
+	} else if len(data) == 1 {
+		toScan = data[0]
+	}
 
-  for lang, data := range Languages {
-    if strings.ToLower(l.Language) == strings.ToLower(lang) {
-      l.language = Languages[lang]
-      if len(data.Map) > 0 {
-        l.Scanner.Map = data.Map
-      }
-    }
-  }
+	for lang, data := range Languages {
+		if strings.ToLower(l.Language) == strings.ToLower(lang) {
+			l.language = Languages[lang]
+			if len(data.Map) > 0 {
+				l.Scanner.Map = data.Map
+			}
+		}
+	}
 
-  scan, err := l.Scanner.Parse(toScan)
-  if err != nil {
-    return l, err
-  }
+	scan, err := l.Scanner.Parse(toScan)
+	if err != nil {
+		return l, err
+	}
 
-  for i := 0; i < len(l.language.Modify); i++ {
-  next:
-    for j := 0; j < len(scan.Tokens); j++ {
-      matches := make([]bool, len(scan.Tokens[j]))
-      for k := 0; k < len(l.language.Modify[i][0]); k++ {
-        if scan.Tokens[j][k] == l.language.Modify[i][0][k] {
-          matches[k] = true
-        }
-      }
+	for i := 0; i < len(l.language.Modify); i++ {
+	next:
+		for j := 0; j < len(scan.Tokens); j++ {
+			matches := make([]bool, len(scan.Tokens[j]))
+			for k := 0; k < len(l.language.Modify[i][0]); k++ {
+				if scan.Tokens[j][k] == l.language.Modify[i][0][k] {
+					matches[k] = true
+				}
+			}
 
-      for k := 0; k < len(matches); k++ {
-        if !matches[k] {
-          continue next
-        }
-      }
+			for k := 0; k < len(matches); k++ {
+				if !matches[k] {
+					continue next
+				}
+			}
 
-      for k := 0; k < len(l.language.Modify[i][1]); k++ {
-        if len(l.language.Modify[i][1][k]) > 0 {
-          scan.Tokens[j][k] = l.language.Modify[i][1][k]
-        }
-      }
-    }
-  }
+			for k := 0; k < len(l.language.Modify[i][1]); k++ {
+				if len(l.language.Modify[i][1][k]) > 0 {
+					scan.Tokens[j][k] = l.language.Modify[i][1][k]
+				}
+			}
+		}
+	}
 
-  l.Scanner = scan
+	l.Scanner = scan
 
-  return l, nil
+	return l, nil
 }
 
 /*
@@ -143,28 +143,28 @@ therefore Javascript matches first.
 
 */
 func (l Lexer) ReadFile(filename string) (Lexer, error) {
-  file, err := ioutil.ReadFile(filename)
-  if err != nil {
-    return l, err
-  }
+	file, err := ioutil.ReadFile(filename)
+	if err != nil {
+		return l, err
+	}
 
-  split, langs := strings.Split(filename, "."), make([]string, 0)
-  if len(split) > 1 {
-    ext := strings.ToLower(split[len(split)-1])
-    for lang, data := range Languages {
-      if len(data.Extensions) > 0 {
-        for _, e := range data.Extensions {
-          if ext == strings.ToLower(e) {
-            langs = append(langs, lang)
-          }
-        }
-      }
-    }
-  }
+	split, langs := strings.Split(filename, "."), make([]string, 0)
+	if len(split) > 1 {
+		ext := strings.ToLower(split[len(split)-1])
+		for lang, data := range Languages {
+			if len(data.Extensions) > 0 {
+				for _, e := range data.Extensions {
+					if ext == strings.ToLower(e) {
+						langs = append(langs, lang)
+					}
+				}
+			}
+		}
+	}
 
-  if len(langs) > 0 {
-    return l.Parse(langs[0], file)
-  }
+	if len(langs) > 0 {
+		return l.Parse(langs[0], file)
+	}
 
-  return l.Parse(file)
+	return l.Parse(file)
 }
