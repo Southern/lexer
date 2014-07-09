@@ -248,6 +248,7 @@ func init() {
 							"while",
 							"with",
 							"yield",
+							"None",
 						}, "|"),
 						")",
 					}, "") + "\\b",
