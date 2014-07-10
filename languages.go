@@ -127,6 +127,9 @@ func init() {
 				// Double quote strings
 				regex["strings"]["double"],
 
+				// Single quote strings, for byte and char types.
+				regex["strings"]["single"],
+
 				// <-, :=, :, ..., .
 				{regexp.MustCompile("^(<-|:=?|\\.{3}|\\.)"), "OPERATOR"},
 
