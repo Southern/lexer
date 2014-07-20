@@ -372,6 +372,9 @@ func init() {
 				// Single quote "string"
 				regex["strings"]["single"],
 
+				// :symbol
+				{regexp.MustCompile("^(?i):[a-z_][a-z0-9_]+"), "SYMBOL"},
+
 				// ::, .., ..., ., <=>, ===, =~, !~
 				{regexp.MustCompile("^(:{2}|\\.{2,3}|\\.|<=>|={3}|=[~>]|!~)"), "OPERATOR"},
 
