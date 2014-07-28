@@ -36,6 +36,9 @@ func init() {
 				// Single quote strings
 				regex["strings"]["single"],
 
+				// Hexadecimal
+				regex["numbers"]["hex"],
+
 				// ~, ===, .
 				{regexp.MustCompile("^(~|={3}|\\.)"), "OPERATOR"},
 
@@ -139,6 +142,9 @@ func init() {
 				// Single quote strings, for byte and char types.
 				regex["strings"]["single"],
 
+				// Hexadecimal
+				regex["numbers"]["hex"],
+
 				// <-, :=, :, ..., .
 				{regexp.MustCompile("^(<-|:=?|\\.{3}|\\.)"), "OPERATOR"},
 
@@ -217,6 +223,9 @@ func init() {
 				// Single quote strings
 				regex["strings"]["single"],
 
+				// Hexadecimal
+				regex["numbers"]["hex"],
+
 				// Decorators
 				{regexp.MustCompile("^@[^\\s]+"), "DECORATOR"},
 
@@ -275,6 +284,9 @@ func init() {
 
 				// Single quote "string"
 				regex["strings"]["single"],
+
+				// Hexadecimal
+				regex["numbers"]["hex"],
 
 				// Decorators
 				{regexp.MustCompile("^@[^\\s]+"), "DECORATOR"},
@@ -371,6 +383,9 @@ func init() {
 
 				// Single quote "string"
 				regex["strings"]["single"],
+
+				// Hexadecimal
+				regex["numbers"]["hex"],
 
 				// :symbol
 				{regexp.MustCompile("^(?i):[a-z_][a-z0-9_]+"), "SYMBOL"},

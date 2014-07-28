@@ -7,6 +7,10 @@ import (
 )
 
 var regex = map[string]map[string]scanner.Definition{
+	"numbers": {
+		"hex": {regexp.MustCompile("^(?i)0x[a-f0-9]+\\b"), "HEX"},
+	},
+
 	"comments": {
 		// Hash comments
 		"hash": {regexp.MustCompile("^#(.+)"), "COMMENT"},
